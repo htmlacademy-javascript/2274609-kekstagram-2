@@ -7,13 +7,6 @@ function isLengthStr (str, length) {
   return true;
 }
 
-const lengthFirstStr = isLengthStr('проверяемая строка', 20);
-const lengthSecondStr = isLengthStr('проверяемая строка', 10);
-
-console.log('lengthFirstStr: ', lengthFirstStr);
-console.log('lengthSecondStr: ', lengthSecondStr);
-console.log('');
-
 function isPalindromeMetod (str) {
   const normStr = str.trim().replace(/\s+/g, '').toUpperCase();
   return normStr.split('').reverse().join('') === normStr;
@@ -33,28 +26,6 @@ function isPalindromeCycle (str) {
   return true;
 }
 
-const oneStrMetod = isPalindromeMetod('топот');
-const twoStrMetod = isPalindromeMetod('ДовОд');
-const threeStrMetod = isPalindromeMetod('Кекс');
-const fourStrMetod = isPalindromeMetod('Лёша на полке клопа нашёл ');
-
-console.log('oneStrMetod: ', oneStrMetod);
-console.log('twoStrMetod: ', twoStrMetod);
-console.log('threeStrMetod: ', threeStrMetod);
-console.log('fourStrMetod: ', fourStrMetod);
-console.log('');
-
-const oneStrCycle = isPalindromeCycle('топот');
-const twoStrCycle = isPalindromeCycle('ДовОд');
-const threeStrCycle = isPalindromeCycle('Кекс');
-const fourStrCycle = isPalindromeCycle('Лёша на полке клопа нашёл ');
-
-console.log('oneStrCycle: ', oneStrCycle);
-console.log('twoStrCycle: ', twoStrCycle);
-console.log('threeStrCycle: ', threeStrCycle);
-console.log('fourStrCycle: ', fourStrCycle);
-console.log('');
-
 function getPositiveIntegeNumber (str) {
   if (typeof str === 'number') {
     str = String(str);
@@ -72,7 +43,6 @@ function getPositiveIntegeNumber (str) {
   return Number(resultStr);
 }
 
-console.log('getNumber: ', getPositiveIntegeNumber('sdf 2034 sdf1.5sd dfdf0.3'));
 
 function getNumber (str) {
   if (typeof str === 'number') {
@@ -81,8 +51,11 @@ function getNumber (str) {
 
   const resultStr = str.replace(/\D/g, '');
 
-  console.log('resultStr: ', resultStr);
   return resultStr;
 }
 
-console.log('getNumber: ', getNumber('sdf 2034 sdf1.5sd dfdf0.3'));
+isLengthStr();
+isPalindromeMetod();
+isPalindromeCycle();
+getPositiveIntegeNumber();
+getNumber();
