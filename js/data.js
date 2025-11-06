@@ -85,6 +85,6 @@ const parametr = {
 
 const dataPhotos = getDataPhotos(parametr);
 
-console.log('dataPhotos: ', dataPhotos);
+//console.log('dataPhotos: ', dataPhotos);
 
 export { dataPhotos };
