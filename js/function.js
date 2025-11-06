@@ -44,9 +44,9 @@ function getDataPhotos (parametrs) {
     commentEndNum,
     idDatas,
     idComments,
-    message,
-    name,
-    description
+    messages,
+    names,
+    descriptions
   } = parametrs;
 
   const photoDatas = Array.from({ length: lengthArr }, (_, index) => {
@@ -58,15 +58,15 @@ function getDataPhotos (parametrs) {
       idComments,
       avatarStartNum,
       avatarEndNum,
-      message,
-      name
+      messages,
+      names
     );
 
     return {
       id: currentId,
       url: `photos/${currentId}.jpg`,
-      description: description[getRandomNumber(0, description.length - 1)],
-      likes: getRandomNumber(likeStartNum, likeEndNum),
+      description: descriptions[getRandomNumber(0, descriptions.length - 1)],
+      like: getRandomNumber(likeStartNum, likeEndNum),
       comments: comments,
     };
   });

@@ -8,7 +8,7 @@ const LIKE_END_NUM = 200;
 const COMMENT_START_NUM = 1;
 const COMMENT_END_NUM = 3;
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Моя бабушка курит трубку',
   'Куда идем мы с Пятачком?',
   'Закат на Замковой горе',
@@ -37,7 +37,7 @@ const DESCRIPTION = [
   'В белом пальто',
 ];
 
-const MESSAGE = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра.',
@@ -48,7 +48,7 @@ const MESSAGE = [
   'Как можно было поймать такой неудачный момент?!'
 ];
 
-const NAME = [
+const NAMES = [
   'Артем',
   'Ирина',
   'Алексей',
@@ -78,13 +78,13 @@ const parametr = {
   commentEndNum: COMMENT_END_NUM,
   idDatas: idDatas,
   idComments: idComments,
-  message: MESSAGE,
-  name: NAME,
-  description: DESCRIPTION,
+  messages: MESSAGES,
+  names: NAMES,
+  descriptions: DESCRIPTIONS,
 };
 
 const dataPhotos = getDataPhotos(parametr);
 
-//console.log('dataPhotos: ', dataPhotos);
+console.log('dataPhotos: ', dataPhotos);
 
 export { dataPhotos };
