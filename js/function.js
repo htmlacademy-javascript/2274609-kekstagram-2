@@ -1,136 +1,77 @@
-function isLengthStr (str, length) {
-
-  if (str.length > length) {
-    return false;
-  }
-
-  return true;
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function isPalindromeMetod (str) {
-  const normStr = str.trim().replace(/\s+/g, '').toUpperCase();
-  return normStr.split('').reverse().join('') === normStr;
+function getNumbers(min = 1, max = 25, count = max) {
+  if (count > (max - min + 1) || count <= 0) {
+    return [];
+  }
+
+  const numbers = [];
+  for (let i = min; i <= max; i += 1) {
+    numbers.push(i);
+  }
+
+  // Перемешиваем массив (алгоритм тасования Фишера-Йетса)
+  for (let i = numbers.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+  }
+  return numbers.slice(0, count);
 }
 
-function isPalindromeCycle (str) {
-  const normStr = str.trim().replaceAll(' ', '').toUpperCase();
-  const length = normStr.length;
-  const halfLength = Math.floor(normStr.length / 2);
-
-  for (let i = 0; i <= halfLength; i += 1) {
-    if (normStr[i] !== normStr[length - (i + 1)]) {
-      return false;
-    }
-  }
-
-  return true;
+function getComments (commentsSum, idComments, avatarStartNum, avatarEndNum, message, name) {
+  const comments = Array.from({ length: commentsSum }, () => {
+    const uniqueCommentId = idComments.pop();
+    return {
+      id: uniqueCommentId,
+      avatar: `img/avatar-${getRandomNumber(avatarStartNum, avatarEndNum)}.svg`,
+      message: message[getRandomNumber(0, message.length - 1)],
+      name: name[getRandomNumber(0, name.length - 1)],
+    };
+  });
+  return comments;
 }
 
-function getPositiveIntegeNumber (str) {
-  if (typeof str === 'number') {
-    str = String(str);
-  }
+function getDataPhotos (parametrs) {
+  const {
+    lengthArr,
+    avatarStartNum,
+    avatarEndNum,
+    likeStartNum,
+    likeEndNum,
+    commentStartNum,
+    commentEndNum,
+    idDatas,
+    idComments,
+    messages,
+    names,
+    descriptions
+  } = parametrs;
 
-  const items = str.split('');
-  let resultStr = '';
+  const photoDatas = Array.from({ length: lengthArr }, (_, index) => {
+    const currentId = idDatas[index];
 
-  for (let i = 0; i < items.length; i += 1) {
-    if (items[i] >= '0' && items[i] <= '9') {
-      resultStr += items[i];
-    }
-  }
+    const commentsSum = getRandomNumber(commentStartNum, commentEndNum);
+    const comments = getComments(
+      commentsSum,
+      idComments,
+      avatarStartNum,
+      avatarEndNum,
+      messages,
+      names
+    );
 
-  return Number(resultStr);
+    return {
+      id: currentId,
+      url: `photos/${currentId}.jpg`,
+      description: descriptions[getRandomNumber(0, descriptions.length - 1)],
+      like: getRandomNumber(likeStartNum, likeEndNum),
+      comments: comments,
+    };
+  });
+
+  return photoDatas;
 }
 
-
-function getNumber (str) {
-  if (typeof str === 'number') {
-    str = String(str);
-  }
-
-  const resultStr = str.replace(/\D/g, '');
-
-  return resultStr;
-}
-
-isLengthStr();
-isPalindromeMetod();
-isPalindromeCycle();
-getPositiveIntegeNumber();
-getNumber();
-
-/* Решение дополнительных задач */
-
-/* 2626.Array Reduce Transform */
-function reduce (nums, fn, init) {
-  if (nums.length === 0) {
-    return init;
-  }
-
-  let result = init;
-
-  for (let i = 0; i < nums.length; i += 1) {
-    result = fn(result, nums[i]);
-  }
-
-  return result;
-}
-
-/* 2634.Filter Elements from Array */
-function filter (arr, fn) {
-  const result = [];
-
-  for (let i = 0; i < arr.length; i += 1) {
-    const value = fn(arr[i], i);
-
-    if (value) {
-      result.push(arr[i]);
-    }
-
-  }
-
-  return result;
-}
-
-/* 2620.Counter */
-function createCounter(n) {
-  let currentN = n;
-
-  return function() {
-    const saveCurrentN = currentN;
-    currentN += 1;
-    return saveCurrentN;
-  };
-}
-
-/* 2635.Apply Transform Over Each Element in Array */
-function map (arr, fn) {
-  const resultArr = [];
-
-  for (let i = 0; i < arr.length; i += 1) {
-    const item = fn(arr[i], i);
-    resultArr.push(item);
-  }
-
-  return resultArr;
-}
-
-/* 2648.Generate Fibonacci Sequence */
-const fibGenerator = function*() {
-  let previous = 0;
-  let current = 1;
-  while (true) {
-    yield previous;
-    const temp = current;
-    current = current + previous;
-    previous = temp;
-  }
-
-};
-
-reduce();
-filter();
-createCounter();
-map();
-fibGenerator();
+export { getRandomNumber, getNumbers, getComments, getDataPhotos };
