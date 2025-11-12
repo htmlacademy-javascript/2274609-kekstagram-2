@@ -68,7 +68,7 @@ const NAMES = [
 const idDatas = getNumbers(1, 25);
 const idComments = getNumbers(1, 150);
 
-const parametr = {
+const parameter = {
   lengthArr: LENGTH_PHOTO_DATAS,
   avatarStartNum: AVATAR_START_NUM,
   avatarEndNum: AVATAR_END_NUM,
@@ -83,8 +83,5 @@ const parametr = {
   descriptions: DESCRIPTIONS,
 };
 
-const dataPhotos = getDataPhotos(parametr);
+export const dataPhotos = getDataPhotos(parameter);
 
-//console.log('dataPhotos: ', dataPhotos);
-
-export { dataPhotos };
