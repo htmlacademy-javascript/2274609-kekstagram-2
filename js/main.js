@@ -1,3 +1,14 @@
 import './utils.js';
-//import './function.js';
-import './data.js';
+import { renderPreview } from './preview-photo.js';
+import { dataPhotos } from './data.js';
+
+
+const init = () => {
+  dataPhotos.forEach((data) => {
+    const { url, description, like, comments } = data;
+    renderPreview(url, description, like, comments);
+  });
+};
+
+
+init();
