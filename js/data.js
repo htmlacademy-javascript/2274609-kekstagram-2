@@ -132,4 +132,3 @@ function getDataPhotos (parametres) {
 
 
 export const dataPhotos = getDataPhotos(parameter);
-
