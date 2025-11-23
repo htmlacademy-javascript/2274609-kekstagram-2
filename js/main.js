@@ -1,5 +1,6 @@
 import './utils.js';
 import { renderPreview } from './preview-photo.js';
+import { renderFullPhoto } from './full-photo.js';
 import { dataPhotos } from './data.js';
 
 
@@ -12,3 +13,5 @@ const init = () => {
 
 
 init();
+renderFullPhoto(dataPhotos);
+

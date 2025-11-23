@@ -19,3 +19,5 @@ export function getNumbers(min = 1, max = 25, count = max) {
   }
   return numbers.slice(0, count);
 }
+
+export const isEscapeKey = (evt) => evt.key === 'Escape';
