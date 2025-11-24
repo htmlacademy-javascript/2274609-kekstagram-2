@@ -19,51 +19,78 @@ const listComment = fullPhotoSection.querySelector('.social__comments');
 const btnLoadComment = fullPhotoSection.querySelector('.comments-loader');
 const btnClose = fullPhotoSection.querySelector('.big-picture__cancel');
 
+const NUMBER_COMMENT = 5;
+
+let allComments = [];
+let countComment = 0;
+
 export function renderFullPhoto(data) {
-  const photos = document.querySelectorAll('.picture');
-  photos.forEach((photo) => {
-    photo.addEventListener('click', () => {
-      const url = photo.querySelector('.picture__img').getAttribute('src');
-      const dataPhoto = data.filter((item) => item.url === url);
+  const photoContainer = document.querySelector('.pictures');
 
-      const itemData = dataPhoto[0];
+  photoContainer.addEventListener('click', (evt) => {
+    const photo = evt.target.closest('.picture');
 
-      openFullPhoto(itemData);
-      showCommentsPhoto(itemData);
+    if (!photo) {
+      // eslint-disable-next-line no-useless-return
+      return;
+    }
 
-      //скрываю контейнер комментариев и кнопку загрузки новых комментариев согласно ТЗ к ДЗ
-      fullPhotoCommentContainer.classList.add('hidden');
-      btnLoadComment.classList.add('hidden');
-    });
+    const src = photo.querySelector('.picture__img').getAttribute('src');
+    const dataPhoto = data.find((item) => item.url === src);
+
+    const { url, description, like, comments } = dataPhoto;
+    countComment = 0;
+    allComments = comments;
+
+    openModal();
+    createFullPhoto(url, description, like);
+    listComment.innerHTML = '';
+    showCommentsPhoto();
   });
 }
 
-function openFullPhoto(data) {
+function openModal() {
   fullPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
-
-  fullPhoto.src = data.url;
-  fullPhoto.alt = data.description;
-
-  photoAuthor.src = `img/avatar-${getRandomNumber(1, 6)}.svg`;
-  photoDescription.textContent = data.description;
-  photoSumLike.textContent = data.like;
 
   btnClose.addEventListener('click', handleCloseClick);
   document.addEventListener('keydown', handleCloseKey);
 }
 
-function showCommentsPhoto(data) {
-  showCommentNum.textContent = data.comments.length; // здесь будет константа с числом комментариев которые показываем
-  sumComment.textContent = data.comments.length; // здесь общее число комментариев к фотографии
-  renderCommentsPhoto(data); // функция создания комментариев из массива данных
+function createFullPhoto (url, description, like) {
+  fullPhoto.src = url;
+  fullPhoto.alt = description;
+
+  photoAuthor.src = `img/avatar-${getRandomNumber(1, 6)}.svg`;
+  photoDescription.textContent = description;
+  photoSumLike.textContent = like;
 }
 
-function renderCommentsPhoto(data) {
-  // удаляю комментарии по дефолту из списка
-  listComment.querySelectorAll('.social__comment').forEach((comment) => comment.remove());
+function showCommentsPhoto() {
+  const fragment = document.createDocumentFragment();
+  const startIndex = countComment;
+  countComment += NUMBER_COMMENT;
+  const endIndex = Math.min(countComment, allComments.length);
+  btnLoadComment.classList.remove('hidden');
 
-  data.comments.forEach((comment) => {
+  if (countComment < allComments.length) {
+    showCommentNum.textContent = countComment;
+    sumComment.textContent = allComments.length;
+    const currentComment = renderCommentsPhoto(allComments.slice(startIndex, endIndex), fragment);
+    listComment.append(currentComment);
+    btnLoadComment.addEventListener('click', handleLoadClick);
+  } else {
+    countComment = allComments.length;
+    showCommentNum.textContent = countComment;
+    sumComment.textContent = allComments.length;
+    btnLoadComment.classList.add('hidden');
+    const currentComment = renderCommentsPhoto(allComments.slice(startIndex, endIndex), fragment);
+    listComment.append(currentComment);
+  }
+}
+
+function renderCommentsPhoto(comments, fragment) {
+  comments.forEach((comment) => {
     const li = document.createElement('li');
     li.classList.add('social__comment');
 
@@ -80,15 +107,21 @@ function renderCommentsPhoto(data) {
     text.textContent = comment.message;
     li.append(text);
 
-    listComment.append(li);
+    fragment.append(li);
   });
+  return fragment;
 }
 
 function closeModelOpen () {
   fullPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  btnClose.removeEventListener('click', handleCloseClick);
+  btnClose.removeEventListener('click', handleCloseClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
+  btnLoadComment.removeEventListener('click', handleLoadClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
   document.removeEventListener('keydown', handleCloseKey);
+}
+
+function handleLoadClick() {
+  showCommentsPhoto();
 }
 
 function handleCloseClick () {
