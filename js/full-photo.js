@@ -39,13 +39,11 @@ export function renderFullPhoto(data) {
     const dataPhoto = data.find((item) => item.url === src);
 
     const { url, description, like, comments } = dataPhoto;
-    countComment = 0;
-    allComments = comments;
 
     openModal();
     createFullPhoto(url, description, like);
-    listComment.innerHTML = '';
-    showCommentsPhoto();
+    clearComments();
+    showCommentsPhoto(allComments = comments);
   });
 }
 
@@ -112,12 +110,17 @@ function renderCommentsPhoto(comments, fragment) {
   return fragment;
 }
 
+function clearComments() {
+  listComment.innerHTML = '';
+}
+
 function closeModelOpen () {
   fullPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
   btnClose.removeEventListener('click', handleCloseClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
   btnLoadComment.removeEventListener('click', handleLoadClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
   document.removeEventListener('keydown', handleCloseKey);
+  countComment = 0;
 }
 
 function handleLoadClick() {
@@ -130,7 +133,7 @@ function handleCloseClick () {
 
 function handleCloseKey(evt) {
   if (isEscapeKey(evt)) {
-    evt.preventDefault(evt);
+    evt.preventDefault();
     closeModelOpen();
   }
 }
