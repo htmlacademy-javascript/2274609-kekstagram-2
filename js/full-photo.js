@@ -30,20 +30,21 @@ export function renderFullPhoto(data) {
   photoContainer.addEventListener('click', (evt) => {
     const photo = evt.target.closest('.picture');
 
-    if (!photo) {
-      // eslint-disable-next-line no-useless-return
-      return;
+    if (photo) {
+      evt.preventDefault();
+      const src = photo.querySelector('.picture__img').getAttribute('src');
+      const dataPhoto = data.find((item) => item.url === src);
+
+      const { url, description, like, comments } = dataPhoto;
+
+      openModal();
+      createFullPhoto(url, description, like);
+      clearComments();
+      showCommentsPhoto(allComments = comments);
     }
 
-    const src = photo.querySelector('.picture__img').getAttribute('src');
-    const dataPhoto = data.find((item) => item.url === src);
-
-    const { url, description, like, comments } = dataPhoto;
-
-    openModal();
-    createFullPhoto(url, description, like);
-    clearComments();
-    showCommentsPhoto(allComments = comments);
+    // eslint-disable-next-line no-useless-return
+    return;
   });
 }
 
