@@ -5,13 +5,8 @@ import { dataPhotos } from './data.js';
 
 
 const init = () => {
-  dataPhotos.forEach((data) => {
-    const { url, description, like, comments } = data;
-    renderPreview(url, description, like, comments);
-  });
+  renderPreview(dataPhotos);
+  renderFullPhoto(dataPhotos);
 };
 
-
 init();
-renderFullPhoto(dataPhotos);
-
