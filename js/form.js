@@ -1,6 +1,6 @@
-import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils';
-import { initScale } from './scalle-photo';
-import { defaultSlaiderElement } from './slider-effects';
+import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils.js';
+import { initScale } from './scalle-photo.js';
+import { defaultSlaiderElement } from './slider-effects.js';
 
 const formLoad = document.querySelector('#upload-select-image');
 
