@@ -11,7 +11,6 @@ export function getNumbers(min = 1, max = 25, count = max) {
   for (let i = min; i <= max; i += 1) {
     numbers.push(i);
   }
-
   // Перемешиваем массив (алгоритм тасования Фишера-Йетса)
   for (let i = numbers.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -20,7 +19,9 @@ export function getNumbers(min = 1, max = 25, count = max) {
   return numbers.slice(0, count);
 }
 
-export const isEscapeKey = (evt) => evt.key === 'Escape';
+export function isEscapeKey (evt) {
+  return evt.key === 'Escape';
+}
 
 export function isHashtag(value) {
   if (isEmptyStr(value)) {

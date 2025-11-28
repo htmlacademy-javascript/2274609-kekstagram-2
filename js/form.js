@@ -1,4 +1,6 @@
 import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils';
+import { initScale } from './scalle-photo';
+import { defaultSlaiderElement } from './slider-effects';
 
 const formLoad = document.querySelector('#upload-select-image');
 
@@ -67,6 +69,8 @@ function handleChangeField(evt) {
 function showModalEditing () {
   modalEditing.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  initScale();
+  defaultSlaiderElement();
   document.addEventListener('keydown', onModalEditingEscKeydown);
 }
 

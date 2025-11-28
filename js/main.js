@@ -1,4 +1,5 @@
 import './utils.js';
+import './slider-effects.js';
 import { sendData } from './form.js';
 import { renderPreview } from './preview-photo.js';
 import { renderFullPhoto } from './full-photo.js';
