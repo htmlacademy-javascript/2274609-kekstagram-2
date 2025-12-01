@@ -1,8 +1,6 @@
-export function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-export function getNumbers(min = 1, max = 25, count = max) {
+const getNumbers = (min = 1, max = 25, count = max) => {
   if (count > (max - min + 1) || count <= 0) {
     return [];
   }
@@ -17,13 +15,18 @@ export function getNumbers(min = 1, max = 25, count = max) {
     [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
   }
   return numbers.slice(0, count);
-}
+};
 
-export function isEscapeKey (evt) {
-  return evt.key === 'Escape';
-}
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export function isHashtag(value) {
+const isEmptyStr = (value) => {
+  if (value.trim() === '') {
+    return true;
+  }
+  return false;
+};
+
+const isHashtag = (value) => {
   if (isEmptyStr(value)) {
     return true;
   }
@@ -32,9 +35,9 @@ export function isHashtag(value) {
   const reg = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
   const noValidHastags = hashtags.filter((item) => reg.test(item) === false);
   return noValidHastags.length === 0;
-}
+};
 
-export function isDubleHashtags(value) {
+const isDubleHashtags = (value) => {
   if(isEmptyStr(value)) {
     return true;
   }
@@ -47,9 +50,9 @@ export function isDubleHashtags(value) {
   });
   const dubleHashtags = Object.keys(countItems).filter((item) => countItems[item] > 1);
   return dubleHashtags.length === 0;
-}
+};
 
-export function isLengthHashtags(value) {
+const isLengthHashtags = (value) => {
   if (isEmptyStr(value)) {
     return true;
   }
@@ -59,20 +62,14 @@ export function isLengthHashtags(value) {
     return false;
   }
   return true;
-}
+};
 
-export function isCommentLength (value) {
+const isCommentLength = (value) => {
   if (isEmptyStr(value)) {
     return true;
   }
 
   return value.length > 1 && value.length <= 140;
-}
+};
 
-function isEmptyStr(value) {
-  if (value.trim() === '') {
-    return true;
-  }
-  return false;
-}
-
+export { getRandomNumber, getNumbers, isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength };

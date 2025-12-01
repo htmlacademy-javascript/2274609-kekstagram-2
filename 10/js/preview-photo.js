@@ -2,7 +2,7 @@ const containerPreview = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content;
 const picturesFragment = document.createDocumentFragment();
 
-export const renderPreview = (dataPictures) => {
+const renderPreview = (dataPictures) => {
   dataPictures.forEach((data) => {
     const { url, description, like, comments } = data;
 
@@ -22,3 +22,5 @@ export const renderPreview = (dataPictures) => {
 
   containerPreview.append(picturesFragment);
 };
+
+export { renderPreview };

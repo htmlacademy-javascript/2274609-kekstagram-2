@@ -29,21 +29,15 @@ pristine.addValidator(fieldHashtag, isLengthHashtags, 'Не более пяти 
 
 pristine.addValidator(fieldDescription, isCommentLength, false);
 
-export function sendData() {
-  loadFile.addEventListener('change', handleChangeField);
+const showModalEditing = () => {
+  modalEditing.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  initScale();
+  defaultSlaiderElement();
+  document.addEventListener('keydown', onModalEditingEscKeydown);
+};
 
-  formLoad.addEventListener('submit', (evt) => {
-    const isValid = pristine.validate();
-
-    if (!isValid) {
-      evt.preventDefault();
-    }
-  });
-
-  btnCloseForm.addEventListener('click', closeModalEditing);
-}
-
-function handleChangeField(evt) {
+const handleChangeField = (evt) => {
   evt.preventDefault();
 
   /* const file = evt.target.files[0];
@@ -64,17 +58,9 @@ function handleChangeField(evt) {
   } */
 
   showModalEditing();
-}
+};
 
-function showModalEditing () {
-  modalEditing.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  initScale();
-  defaultSlaiderElement();
-  document.addEventListener('keydown', onModalEditingEscKeydown);
-}
-
-function closeModalEditing () {
+const closeModalEditing = () => {
   loadFile.value = '';
   fieldScaleControl.value = '100%';
   fieldEffectPhoto.value = '';
@@ -86,7 +72,21 @@ function closeModalEditing () {
   modalEditing.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEditingEscKeydown);
-}
+};
+
+const sendData = () => {
+  loadFile.addEventListener('change', handleChangeField);
+
+  formLoad.addEventListener('submit', (evt) => {
+    const isValid = pristine.validate();
+
+    if (!isValid) {
+      evt.preventDefault();
+    }
+  });
+
+  btnCloseForm.addEventListener('click', closeModalEditing);
+};
 
 function onModalEditingEscKeydown (evt) {
   if (fieldHashtag === document.activeElement || fieldDescription === document.activeElement) {
@@ -98,3 +98,5 @@ function onModalEditingEscKeydown (evt) {
     closeModalEditing();
   }
 }
+
+export { sendData };
