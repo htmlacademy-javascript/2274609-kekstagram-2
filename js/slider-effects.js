@@ -19,14 +19,7 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-sliderElement.noUiSlider.on('update', () => {
-  const value = sliderElement.noUiSlider.get();
-  sliderValue.value = value;
-
-  changeFilter(currentEffect, value);
-});
-
-function changeFilter(effect, value) {
+const changeFilter = (effect, value) => {
   let filter = '';
 
   switch (effect) {
@@ -56,9 +49,17 @@ function changeFilter(effect, value) {
   }
 
   previewPhoto.style.filter = filter;
-}
+};
 
-function changeEffectPhoto(attribute) {
+sliderElement.noUiSlider.on('update', () => {
+  const value = sliderElement.noUiSlider.get();
+  sliderValue.value = value;
+
+  changeFilter(currentEffect, value);
+});
+
+
+const changeEffectPhoto = (attribute) => {
   currentEffect = attribute;
 
   previewPhoto.className = '';
@@ -127,7 +128,7 @@ function changeEffectPhoto(attribute) {
   }
 
   sliderElement.noUiSlider.updateOptions(options);
-}
+};
 
 effectElements.forEach((effect) => {
   effect.addEventListener('click', () => {
@@ -136,7 +137,9 @@ effectElements.forEach((effect) => {
   });
 });
 
-export function defaultSlaiderElement() {
+const defaultSlaiderElement = () => {
   document.querySelector('#effect-none').checked = true;
   changeEffectPhoto('effect-none');
-}
+};
+
+export { defaultSlaiderElement };

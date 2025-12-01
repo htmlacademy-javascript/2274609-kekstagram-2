@@ -76,7 +76,7 @@ const parameter = {
   descriptions: DESCRIPTIONS,
 };
 
-function getComments (commentsSum, idComments, avatarStartNum, avatarEndNum, message, name) {
+const getComments = (commentsSum, idComments, avatarStartNum, avatarEndNum, message, name) => {
   const comments = Array.from({ length: commentsSum }, () => {
     const uniqueCommentId = idComments.pop();
     return {
@@ -87,9 +87,9 @@ function getComments (commentsSum, idComments, avatarStartNum, avatarEndNum, mes
     };
   });
   return comments;
-}
+};
 
-function getDataPhotos (parametres) {
+const getDataPhotos = (parametres) => {
   const {
     lengthArr,
     avatarStartNum,
@@ -128,7 +128,7 @@ function getDataPhotos (parametres) {
   });
 
   return photoDatas;
-}
+};
 
 
 export const dataPhotos = getDataPhotos(parameter);
