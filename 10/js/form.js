@@ -1,14 +1,12 @@
 import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils.js';
 import { initScale } from './scalle-photo.js';
-import { defaultSlaiderElement } from './slider-effects.js';
+import { initSlaider } from './slider-effects.js';
 
 const formLoad = document.querySelector('#upload-select-image');
 
 const loadFile = formLoad.querySelector('#upload-file');
 const modalEditing = formLoad.querySelector('.img-upload__overlay');
 
-const fieldScaleControl = formLoad.querySelector('.scale__control--value');
-const fieldEffectPhoto = formLoad.querySelector('.effect-level__value');
 const fieldHashtag = formLoad.querySelector('.text__hashtags');
 const fieldDescription = formLoad.querySelector('.text__description');
 
@@ -24,7 +22,7 @@ const pristine = new Pristine(formLoad, {
 });
 
 pristine.addValidator(fieldHashtag, isHashtag, 'Неверный хэш-тег', 1, false);
-pristine.addValidator(fieldHashtag, isDubleHashtags, 'Хэш-теги не дублируются', 2, false);
+pristine.addValidator(fieldHashtag, isDubleHashtags, 'Хэш-теги дублируются', 2, false);
 pristine.addValidator(fieldHashtag, isLengthHashtags, 'Не более пяти хэш-тегов', 3, false);
 
 pristine.addValidator(fieldDescription, isCommentLength, false);
@@ -33,7 +31,7 @@ const showModalEditing = () => {
   modalEditing.classList.remove('hidden');
   document.body.classList.add('modal-open');
   initScale();
-  defaultSlaiderElement();
+  initSlaider();
   document.addEventListener('keydown', onModalEditingEscKeydown);
 };
 
@@ -61,11 +59,7 @@ const handleChangeField = (evt) => {
 };
 
 const closeModalEditing = () => {
-  loadFile.value = '';
-  fieldScaleControl.value = '100%';
-  fieldEffectPhoto.value = '';
-  fieldHashtag.value = '';
-  fieldDescription.value = '';
+  formLoad.reset();
 
   pristine.reset();
 
@@ -74,9 +68,11 @@ const closeModalEditing = () => {
   document.removeEventListener('keydown', onModalEditingEscKeydown);
 };
 
-const sendData = () => {
+const initForm = () => {
   loadFile.addEventListener('change', handleChangeField);
+};
 
+const sendData = () => {
   formLoad.addEventListener('submit', (evt) => {
     const isValid = pristine.validate();
 
@@ -99,4 +95,4 @@ function onModalEditingEscKeydown (evt) {
   }
 }
 
-export { sendData };
+export { initForm, sendData };
