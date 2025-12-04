@@ -26,12 +26,17 @@ const isEmptyStr = (value) => {
   return false;
 };
 
+const normalizeHashtag = (value) => {
+  const hashtags = value.split(' ').filter((item) => item.trim() !== '');
+  return hashtags;
+};
+
 const isHashtag = (value) => {
   if (isEmptyStr(value)) {
     return true;
   }
 
-  const hashtags = value.split(' ').filter((item) => item.trim() !== '');
+  const hashtags = normalizeHashtag(value);
   const reg = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
   const noValidHastags = hashtags.filter((item) => reg.test(item) === false);
   return noValidHastags.length === 0;
@@ -42,7 +47,7 @@ const isDubleHashtags = (value) => {
     return true;
   }
 
-  const hashtags = value.split(' ').filter((item) => item.trim() !== '');
+  const hashtags = normalizeHashtag(value);
   const countItems = {};
   hashtags.forEach((item) => {
     const newItem = item.toUpperCase();
@@ -57,7 +62,7 @@ const isLengthHashtags = (value) => {
     return true;
   }
 
-  const hashtags = value.split(' ').filter((item) => item.trim() !== '');
+  const hashtags = normalizeHashtag(value);
   if (hashtags.length > 5) {
     return false;
   }

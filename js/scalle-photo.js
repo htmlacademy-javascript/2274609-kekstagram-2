@@ -9,7 +9,7 @@ const btnSmaller = imgScale.querySelector('.scale__control--smaller');
 const btnBigger = imgScale.querySelector('.scale__control--bigger');
 const scaleInput = imgScale.querySelector('.scale__control--value');
 
-const previewPhoto = document.querySelector('.img-upload__preview');
+const previewPhoto = document.querySelector('.img-upload__preview img');
 
 const applyScaleToPhoto = (scaleValue = DEFAULT_SCALE) => {
   previewPhoto.setAttribute('style', `transform: scale(${scaleValue / 100})`);
