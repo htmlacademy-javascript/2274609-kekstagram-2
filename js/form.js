@@ -1,12 +1,12 @@
-import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils';
+import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils.js';
+import { initScale } from './scalle-photo.js';
+import { initSlaider } from './slider-effects.js';
 
 const formLoad = document.querySelector('#upload-select-image');
 
 const loadFile = formLoad.querySelector('#upload-file');
 const modalEditing = formLoad.querySelector('.img-upload__overlay');
 
-const fieldScaleControl = formLoad.querySelector('.scale__control--value');
-const fieldEffectPhoto = formLoad.querySelector('.effect-level__value');
 const fieldHashtag = formLoad.querySelector('.text__hashtags');
 const fieldDescription = formLoad.querySelector('.text__description');
 
@@ -22,26 +22,20 @@ const pristine = new Pristine(formLoad, {
 });
 
 pristine.addValidator(fieldHashtag, isHashtag, 'Неверный хэш-тег', 1, false);
-pristine.addValidator(fieldHashtag, isDubleHashtags, 'Хэш-теги не дублируются', 2, false);
+pristine.addValidator(fieldHashtag, isDubleHashtags, 'Хэш-теги дублируются', 2, false);
 pristine.addValidator(fieldHashtag, isLengthHashtags, 'Не более пяти хэш-тегов', 3, false);
 
 pristine.addValidator(fieldDescription, isCommentLength, false);
 
-export function sendData() {
-  loadFile.addEventListener('change', handleChangeField);
+const showModalEditing = () => {
+  modalEditing.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  initScale();
+  initSlaider();
+  document.addEventListener('keydown', onModalEditingEscKeydown);
+};
 
-  formLoad.addEventListener('submit', (evt) => {
-    const isValid = pristine.validate();
-
-    if (!isValid) {
-      evt.preventDefault();
-    }
-  });
-
-  btnCloseForm.addEventListener('click', closeModalEditing);
-}
-
-function handleChangeField(evt) {
+const handleChangeField = (evt) => {
   evt.preventDefault();
 
   /* const file = evt.target.files[0];
@@ -62,27 +56,33 @@ function handleChangeField(evt) {
   } */
 
   showModalEditing();
-}
+};
 
-function showModalEditing () {
-  modalEditing.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onModalEditingEscKeydown);
-}
-
-function closeModalEditing () {
-  loadFile.value = '';
-  fieldScaleControl.value = '100%';
-  fieldEffectPhoto.value = '';
-  fieldHashtag.value = '';
-  fieldDescription.value = '';
+const closeModalEditing = () => {
+  formLoad.reset();
 
   pristine.reset();
 
   modalEditing.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onModalEditingEscKeydown);
-}
+};
+
+const initForm = () => {
+  loadFile.addEventListener('change', handleChangeField);
+};
+
+const sendData = () => {
+  formLoad.addEventListener('submit', (evt) => {
+    const isValid = pristine.validate();
+
+    if (!isValid) {
+      evt.preventDefault();
+    }
+  });
+
+  btnCloseForm.addEventListener('click', closeModalEditing);
+};
 
 function onModalEditingEscKeydown (evt) {
   if (fieldHashtag === document.activeElement || fieldDescription === document.activeElement) {
@@ -94,3 +94,5 @@ function onModalEditingEscKeydown (evt) {
     closeModalEditing();
   }
 }
+
+export { initForm, sendData };
