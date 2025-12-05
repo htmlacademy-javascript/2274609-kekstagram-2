@@ -1,21 +1,8 @@
+const ALERT__SHOW__TIME = 5000;
+
+const alertTemplate = document.querySelector('#data-error').content;
+
 const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-
-const getNumbers = (min = 1, max = 25, count = max) => {
-  if (count > (max - min + 1) || count <= 0) {
-    return [];
-  }
-
-  const numbers = [];
-  for (let i = min; i <= max; i += 1) {
-    numbers.push(i);
-  }
-  // Перемешиваем массив (алгоритм тасования Фишера-Йетса)
-  for (let i = numbers.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-  }
-  return numbers.slice(0, count);
-};
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -77,4 +64,95 @@ const isCommentLength = (value) => {
   return value.length > 1 && value.length <= 140;
 };
 
-export { getRandomNumber, getNumbers, isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength };
+const showAlert = () => {
+  const alertFragment = alertTemplate.cloneNode(true);
+  const alertElement = alertFragment.firstElementChild;
+
+  document.body.append(alertFragment);
+
+  setTimeout(() => {
+    alertElement.remove();
+  }, ALERT__SHOW__TIME);
+};
+
+const hidenShowSucces = () => {
+  const cloneShowSucces = document.querySelector('.success');
+  cloneShowSucces.remove();
+  clinearEventSuccess();
+};
+
+const onEventSuccessClick = (evt) => {
+  const success = document.querySelector('.success__inner');
+  const successMasege = document.querySelector('.success__title');
+
+  if (evt.target === success || evt.target === successMasege) {
+    evt.stopPropagation();
+  } else {
+    hidenShowSucces();
+  }
+};
+
+const onEventSuccessEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    hidenShowSucces();
+  }
+};
+
+function clinearEventSuccess () {
+  document.removeEventListener('click', onEventSuccessClick);
+  document.removeEventListener('keydown', onEventSuccessEscKeydown);
+}
+
+const showSucces = () => {
+  const templateSucces = document.querySelector('#success').content;
+  const newSucces = templateSucces.querySelector('.success');
+  const cloneSucces = newSucces.cloneNode(true);
+
+  document.body.append(cloneSucces);
+
+  document.addEventListener('click', onEventSuccessClick);
+  document.addEventListener('keydown', onEventSuccessEscKeydown);
+};
+
+const hidenShowError = () => {
+  const cloneShowError = document.querySelector('.error');
+  cloneShowError.remove();
+  clinearEventError();
+};
+
+const onEvenErrorClick = (evt) => {
+  const error = document.querySelector('.error__inner');
+  const errorMessage = document.querySelector('.error__title');
+
+  if (evt.target === error || evt.target === errorMessage) {
+    evt.stopPropagation();
+  } else {
+    hidenShowError();
+  }
+};
+
+const onEvenErrorEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    hidenShowError();
+  }
+};
+
+function clinearEventError () {
+  document.removeEventListener('click', onEvenErrorClick);
+  document.removeEventListener('keydown', onEvenErrorEscKeydown);
+}
+
+const showError = () => {
+  const templateShowError = document.querySelector('#error').content;
+  const newTemplateShowError = templateShowError.querySelector('.error');
+  const cloneShowError = newTemplateShowError.cloneNode(true);
+  cloneShowError.setAttribute('style', 'z-index: 3');
+
+  document.body.append(cloneShowError);
+
+  document.addEventListener('click', onEvenErrorClick);
+  document.addEventListener('keydown', onEvenErrorEscKeydown);
+};
+
+
+export { getRandomNumber, /*getNumbers,*/ isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength, showAlert, showSucces, showError };
