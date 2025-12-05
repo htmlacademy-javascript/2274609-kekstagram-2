@@ -32,13 +32,13 @@ const openModal = () => {
   document.addEventListener('keydown', handleCloseKey);
 };
 
-const createFullPhoto = (url, description, like) => {
+const createFullPhoto = (url, description, likes) => {
   fullPhoto.src = url;
   fullPhoto.alt = description;
 
   photoAuthor.src = `img/avatar-${getRandomNumber(1, 6)}.svg`;
   photoDescription.textContent = description;
-  photoSumLike.textContent = like;
+  photoSumLike.textContent = likes;
 };
 
 const clearComments = () => {
@@ -102,10 +102,10 @@ const renderFullPhoto = (data) => {
       const src = photo.querySelector('.picture__img').getAttribute('src');
       const dataPhoto = data.find((item) => item.url === src);
 
-      const { url, description, like, comments } = dataPhoto;
+      const { url, description, likes, comments } = dataPhoto;
 
       openModal();
-      createFullPhoto(url, description, like);
+      createFullPhoto(url, description, likes);
       clearComments();
       showCommentsPhoto(allComments = comments);
     }

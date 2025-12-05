@@ -4,7 +4,7 @@ const picturesFragment = document.createDocumentFragment();
 
 const renderPreview = (dataPictures) => {
   dataPictures.forEach((data) => {
-    const { url, description, like, comments } = data;
+    const { url, description, likes, comments } = data;
 
     const container = pictureTemplate.cloneNode(true);
 
@@ -15,7 +15,7 @@ const renderPreview = (dataPictures) => {
     photo.src = url;
     photo.alt = description;
     numComment.textContent = comments.length;
-    numLike.textContent = like;
+    numLike.textContent = likes;
 
     picturesFragment.append(container);
   });

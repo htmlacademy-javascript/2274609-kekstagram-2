@@ -1,6 +1,7 @@
-import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils.js';
+import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength, showSucces, showError } from './utils.js';
 import { initScale } from './scalle-photo.js';
 import { initSlaider } from './slider-effects.js';
+import { setData } from './fetch.js';
 
 const formLoad = document.querySelector('#upload-select-image');
 
@@ -60,7 +61,6 @@ const handleChangeField = (evt) => {
 
 const closeModalEditing = () => {
   formLoad.reset();
-
   pristine.reset();
 
   modalEditing.classList.add('hidden');
@@ -68,16 +68,24 @@ const closeModalEditing = () => {
   document.removeEventListener('keydown', onModalEditingEscKeydown);
 };
 
-const initForm = () => {
-  loadFile.addEventListener('change', handleChangeField);
-};
+loadFile.addEventListener('change', handleChangeField);
 
 const sendData = () => {
   formLoad.addEventListener('submit', (evt) => {
+    evt.preventDefault();
     const isValid = pristine.validate();
-
-    if (!isValid) {
-      evt.preventDefault();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      setData(formData)
+        .then(() => {
+          showSucces();
+          closeModalEditing();
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.error('Ошибка в обработчике формы:', error.message);
+          showError();
+        });
     }
   });
 
@@ -95,4 +103,4 @@ function onModalEditingEscKeydown (evt) {
   }
 }
 
-export { initForm, sendData };
+export { sendData };
