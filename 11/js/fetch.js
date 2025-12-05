@@ -1,28 +1,26 @@
-const getData = () => fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+
+const sendRequest = (url, options) => fetch(url, options)
   .then((response) => {
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`Ошибка HTTP: ${response.status}`);
     }
-    return response.json();
-  })
+    return response;
+  });
+
+const getData = () => sendRequest(`${BASE_URL}/data`)
+  .then((response) => response.json())
   .catch((error) => {
     // eslint-disable-next-line no-console
     console.error('Ошибка получения данных:', error.message);
     throw error;
   });
 
-const setData = (body) => fetch(
-  ' https://31.javascript.htmlacademy.pro/kekstagram',
-  {
-    method: 'POST',
-    body,
-  })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return true;
-  });
+const setData = (body) => sendRequest(BASE_URL, {
+  method: 'POST',
+  body,
+})
+  .then(() => true);
 
 
 export { getData, setData };
