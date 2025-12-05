@@ -12,7 +12,7 @@ const getData = () => fetch('https://31.javascript.htmlacademy.pro/kekstagram/da
   });
 
 const setData = (body) => fetch(
-  'https://25.javascript.htmlacademy.pro/kekstagram',
+  ' https://31.javascript.htmlacademy.pro/kekstagram',
   {
     method: 'POST',
     body,
