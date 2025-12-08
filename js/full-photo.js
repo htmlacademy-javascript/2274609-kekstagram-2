@@ -28,17 +28,17 @@ const openModal = () => {
   fullPhotoSection.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  btnClose.addEventListener('click', handleCloseClick);
-  document.addEventListener('keydown', handleCloseKey);
+  btnClose.addEventListener('click', onBtnCloseClick);
+  document.addEventListener('keydown', onEscKeydown);
 };
 
-const createFullPhoto = (url, description, like) => {
+const createFullPhoto = (url, description, likes) => {
   fullPhoto.src = url;
   fullPhoto.alt = description;
 
   photoAuthor.src = `img/avatar-${getRandomNumber(1, 6)}.svg`;
   photoDescription.textContent = description;
-  photoSumLike.textContent = like;
+  photoSumLike.textContent = likes;
 };
 
 const clearComments = () => {
@@ -80,7 +80,7 @@ const showCommentsPhoto = () => {
     sumComment.textContent = allComments.length;
     const currentComment = renderCommentsPhoto(allComments.slice(startIndex, endIndex), fragment);
     listComment.append(currentComment);
-    btnLoadComment.addEventListener('click', handleLoadClick);
+    btnLoadComment.addEventListener('click', onBtnLoadCommentClick);
   } else {
     countComment = allComments.length;
     showCommentNum.textContent = countComment;
@@ -102,10 +102,10 @@ const renderFullPhoto = (data) => {
       const src = photo.querySelector('.picture__img').getAttribute('src');
       const dataPhoto = data.find((item) => item.url === src);
 
-      const { url, description, like, comments } = dataPhoto;
+      const { url, description, likes, comments } = dataPhoto;
 
       openModal();
-      createFullPhoto(url, description, like);
+      createFullPhoto(url, description, likes);
       clearComments();
       showCommentsPhoto(allComments = comments);
     }
@@ -118,21 +118,21 @@ const renderFullPhoto = (data) => {
 const closeModelOpen = () => {
   fullPhotoSection.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  btnClose.removeEventListener('click', handleCloseClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
-  btnLoadComment.removeEventListener('click', handleLoadClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
-  document.removeEventListener('keydown', handleCloseKey);
+  btnClose.removeEventListener('click', onBtnCloseClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
+  btnLoadComment.removeEventListener('click', onBtnLoadCommentClick); // можно удалить, при закрытии модального окна обработчик все равно удалится
+  document.removeEventListener('keydown', onEscKeydown);
   countComment = 0;
 };
 
-function handleLoadClick() {
+function onBtnLoadCommentClick() {
   showCommentsPhoto();
 }
 
-function handleCloseClick () {
+function onBtnCloseClick () {
   closeModelOpen();
 }
 
-function handleCloseKey(evt) {
+function onEscKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeModelOpen();

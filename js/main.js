@@ -1,14 +1,20 @@
-import { initForm, sendData } from './form.js';
+import { initFormSubmit } from './form.js';
 import { renderPreview } from './preview-photo.js';
 import { renderFullPhoto } from './full-photo.js';
-import { dataPhotos } from './data.js';
+import { getData } from './fetch.js';
+import { showAlert } from './modal-message-user.js';
 
 
 const init = () => {
-  renderPreview(dataPhotos);
-  renderFullPhoto(dataPhotos);
-  initForm();
-  sendData();
+  getData()
+    .then((dataPhotos) => {
+      renderPreview(dataPhotos);
+      renderFullPhoto(dataPhotos);
+    })
+    .catch(() => {
+      showAlert();
+    });
+  initFormSubmit();
 };
 
 init();

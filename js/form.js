@@ -1,6 +1,9 @@
-import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './utils.js';
+import { isEscapeKey } from './utils.js';
+import { isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './valid-form.js';
+import { showSucces, showError } from './modal-message-user.js';
 import { initScale } from './scalle-photo.js';
 import { initSlaider } from './slider-effects.js';
+import { setData } from './fetch.js';
 
 const formLoad = document.querySelector('#upload-select-image');
 
@@ -35,7 +38,7 @@ const showModalEditing = () => {
   document.addEventListener('keydown', onModalEditingEscKeydown);
 };
 
-const handleChangeField = (evt) => {
+const onFieldLoadChange = (evt) => {
   evt.preventDefault();
 
   /* const file = evt.target.files[0];
@@ -58,9 +61,8 @@ const handleChangeField = (evt) => {
   showModalEditing();
 };
 
-const closeModalEditing = () => {
+const onBtnCloseClick = () => {
   formLoad.reset();
-
   pristine.reset();
 
   modalEditing.classList.add('hidden');
@@ -68,20 +70,26 @@ const closeModalEditing = () => {
   document.removeEventListener('keydown', onModalEditingEscKeydown);
 };
 
-const initForm = () => {
-  loadFile.addEventListener('change', handleChangeField);
-};
+loadFile.addEventListener('change', onFieldLoadChange);
 
-const sendData = () => {
+const initFormSubmit = () => {
   formLoad.addEventListener('submit', (evt) => {
+    evt.preventDefault();
     const isValid = pristine.validate();
-
-    if (!isValid) {
-      evt.preventDefault();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      setData(formData)
+        .then(() => {
+          showSucces();
+          onBtnCloseClick();
+        })
+        .catch(() => {
+          showError();
+        });
     }
   });
 
-  btnCloseForm.addEventListener('click', closeModalEditing);
+  btnCloseForm.addEventListener('click', onBtnCloseClick);
 };
 
 function onModalEditingEscKeydown (evt) {
@@ -91,8 +99,8 @@ function onModalEditingEscKeydown (evt) {
 
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeModalEditing();
+    onBtnCloseClick();
   }
 }
 
-export { initForm, sendData };
+export { initFormSubmit, onModalEditingEscKeydown };
