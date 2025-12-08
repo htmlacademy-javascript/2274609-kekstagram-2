@@ -1,4 +1,6 @@
-import { isEscapeKey, isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength, showSucces, showError } from './utils.js';
+import { isEscapeKey } from './utils.js';
+import { isHashtag, isDubleHashtags, isLengthHashtags, isCommentLength } from './valid-form.js';
+import { showSucces, showError } from './modal-message-user.js';
 import { initScale } from './scalle-photo.js';
 import { initSlaider } from './slider-effects.js';
 import { setData } from './fetch.js';
@@ -70,7 +72,7 @@ const closeModalEditing = () => {
 
 loadFile.addEventListener('change', handleChangeField);
 
-const sendData = () => {
+const initFormSubmit = () => {
   formLoad.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -81,9 +83,7 @@ const sendData = () => {
           showSucces();
           closeModalEditing();
         })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error('Ошибка в обработчике формы:', error.message);
+        .catch(() => {
           showError();
         });
     }
@@ -103,4 +103,4 @@ function onModalEditingEscKeydown (evt) {
   }
 }
 
-export { sendData };
+export { initFormSubmit, onModalEditingEscKeydown };

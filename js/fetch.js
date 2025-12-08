@@ -9,12 +9,7 @@ const sendRequest = (url, options) => fetch(url, options)
   });
 
 const getData = () => sendRequest(`${BASE_URL}/data`)
-  .then((response) => response.json())
-  .catch((error) => {
-    // eslint-disable-next-line no-console
-    console.error('Ошибка получения данных:', error.message);
-    throw error;
-  });
+  .then((response) => response.json());
 
 const setData = (body) => sendRequest(BASE_URL, {
   method: 'POST',
