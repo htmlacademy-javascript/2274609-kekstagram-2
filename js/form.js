@@ -38,7 +38,7 @@ const showModalEditing = () => {
   document.addEventListener('keydown', onModalEditingEscKeydown);
 };
 
-const handleChangeField = (evt) => {
+const onFieldLoadChange = (evt) => {
   evt.preventDefault();
 
   /* const file = evt.target.files[0];
@@ -61,7 +61,7 @@ const handleChangeField = (evt) => {
   showModalEditing();
 };
 
-const closeModalEditing = () => {
+const onBtnCloseClick = () => {
   formLoad.reset();
   pristine.reset();
 
@@ -70,7 +70,7 @@ const closeModalEditing = () => {
   document.removeEventListener('keydown', onModalEditingEscKeydown);
 };
 
-loadFile.addEventListener('change', handleChangeField);
+loadFile.addEventListener('change', onFieldLoadChange);
 
 const initFormSubmit = () => {
   formLoad.addEventListener('submit', (evt) => {
@@ -81,7 +81,7 @@ const initFormSubmit = () => {
       setData(formData)
         .then(() => {
           showSucces();
-          closeModalEditing();
+          onBtnCloseClick();
         })
         .catch(() => {
           showError();
@@ -89,7 +89,7 @@ const initFormSubmit = () => {
     }
   });
 
-  btnCloseForm.addEventListener('click', closeModalEditing);
+  btnCloseForm.addEventListener('click', onBtnCloseClick);
 };
 
 function onModalEditingEscKeydown (evt) {
@@ -99,7 +99,7 @@ function onModalEditingEscKeydown (evt) {
 
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeModalEditing();
+    onBtnCloseClick();
   }
 }
 
