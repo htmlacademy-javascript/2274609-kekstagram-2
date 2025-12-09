@@ -7,7 +7,7 @@ import { setData } from './fetch.js';
 
 const formLoad = document.querySelector('#upload-select-image');
 
-const loadFile = formLoad.querySelector('#upload-file');
+const fieldLoadFile = formLoad.querySelector('#upload-file');
 const modalEditing = formLoad.querySelector('.img-upload__overlay');
 
 const fieldHashtag = formLoad.querySelector('.text__hashtags');
@@ -70,7 +70,7 @@ const onBtnCloseClick = () => {
   document.removeEventListener('keydown', onModalEditingEscKeydown);
 };
 
-loadFile.addEventListener('change', onFieldLoadChange);
+fieldLoadFile.addEventListener('change', onFieldLoadChange);
 
 const initFormSubmit = () => {
   formLoad.addEventListener('submit', (evt) => {

@@ -7,8 +7,6 @@ const pictureContainer = document.querySelector('.pictures.container');
 const filterContainer = document.querySelector('.img-filters');
 const filterBtns = filterContainer.querySelectorAll('.img-filters__button');
 
-filterContainer.classList.remove('img-filters--inactive');
-
 const cleanBtn = (btns) => {
   btns.forEach((btn) => {
     btn.classList.remove('img-filters__button--active');
@@ -28,10 +26,7 @@ const showPhotos = (dataPhotos) => {
   getCurrentData(dataPhotos);
 };
 
-const renderFilterDefault = (dataPhotos) => {
-  cleanPictureContainer();
-  showPhotos(dataPhotos);
-};
+const showPhotosDebounce = debounce((data) => showPhotos(data));
 
 const shuffleData = (dataPhotos, count = 10) => {
   const array = [...dataPhotos];
@@ -46,8 +41,6 @@ const shuffleData = (dataPhotos, count = 10) => {
   return array.slice(0, Math.min(count, array.length));
 };
 
-const showPhotosDebounce = debounce((data) => showPhotos(data));
-
 const sortMessageAmount = (dataPhotos) => {
   const array = [...dataPhotos];
   const messageAmountSort = (messageA, messageB) => messageB.comments.length - messageA.comments.length;
@@ -56,18 +49,18 @@ const sortMessageAmount = (dataPhotos) => {
 };
 
 const getFilterPhotos = (dataPhotos) => {
-  renderFilterDefault(dataPhotos);
-  filterBtns.forEach((btn) => {
+  showPhotos(dataPhotos);
+  filterContainer.classList.remove('img-filters--inactive');
 
+  filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       cleanBtn(filterBtns);
       cleanPictureContainer();
-
       btn.classList.add('img-filters__button--active');
 
       switch(btn.id) {
         case ('filter-default'):
-          renderFilterDefault(dataPhotos);
+          showPhotosDebounce(dataPhotos);
           break;
 
         case ('filter-random'): {
@@ -78,7 +71,7 @@ const getFilterPhotos = (dataPhotos) => {
 
         case ('filter-discussed'): {
           const newDataPhotos = sortMessageAmount(dataPhotos);
-          showPhotos(newDataPhotos);
+          showPhotosDebounce(newDataPhotos);
           break;
         }
       }
