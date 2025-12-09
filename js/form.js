@@ -13,8 +13,8 @@ const modalEditing = formLoad.querySelector('.img-upload__overlay');
 const fieldHashtag = formLoad.querySelector('.text__hashtags');
 const fieldDescription = formLoad.querySelector('.text__description');
 
-// const previewImage = formLoad.querySelector('.img-upload__preview img');
-// const effectPreviews = formLoad.querySelectorAll('.effects__preview');
+const previewImage = formLoad.querySelector('.img-upload__preview img');
+const effectPreviews = formLoad.querySelectorAll('.effects__preview');
 
 const btnCloseForm = formLoad.querySelector('.img-upload__cancel');
 
@@ -41,7 +41,7 @@ const showModalEditing = () => {
 const onFieldLoadChange = (evt) => {
   evt.preventDefault();
 
-  /* const file = evt.target.files[0];
+  const file = evt.target.files[0];
 
   if (file) {
     const reader = new FileReader();
@@ -56,7 +56,7 @@ const onFieldLoadChange = (evt) => {
     });
 
     reader.readAsDataURL(file);
-  } */
+  }
 
   showModalEditing();
 };
