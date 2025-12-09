@@ -2,6 +2,8 @@ import { getRandomNumber, isEscapeKey } from './utils.js';
 
 const NUMBER_COMMENT = 5;
 
+const photoContainer = document.querySelector('.pictures');
+
 const fullPhotoSection = document.querySelector('.big-picture');
 
 const fullPhotoContainer = fullPhotoSection.querySelector('.big-picture__img');
@@ -20,6 +22,8 @@ const listComment = fullPhotoSection.querySelector('.social__comments');
 
 const btnLoadComment = fullPhotoSection.querySelector('.comments-loader');
 const btnClose = fullPhotoSection.querySelector('.big-picture__cancel');
+
+let currentPhotosData = [];
 
 let allComments = [];
 let countComment = 0;
@@ -91,29 +95,28 @@ const showCommentsPhoto = () => {
   }
 };
 
-const renderFullPhoto = (data) => {
-  const photoContainer = document.querySelector('.pictures');
+const onPhotoContainerClick = (evt) => {
+  const photo = evt.target.closest('.picture');
 
-  photoContainer.addEventListener('click', (evt) => {
-    const photo = evt.target.closest('.picture');
+  if (photo) {
+    evt.preventDefault();
+    const src = photo.querySelector('.picture__img').getAttribute('src');
+    const dataPhoto = currentPhotosData.find((item) => item.url === src);
 
-    if (photo) {
-      evt.preventDefault();
-      const src = photo.querySelector('.picture__img').getAttribute('src');
-      const dataPhoto = data.find((item) => item.url === src);
+    const { url, description, likes, comments } = dataPhoto;
 
-      const { url, description, likes, comments } = dataPhoto;
-
-      openModal();
-      createFullPhoto(url, description, likes);
-      clearComments();
-      showCommentsPhoto(allComments = comments);
-    }
-
-    // eslint-disable-next-line no-useless-return
-    return;
-  });
+    openModal();
+    createFullPhoto(url, description, likes);
+    clearComments();
+    showCommentsPhoto(allComments = comments);
+  }
 };
+
+const getCurrentData = (data) => {
+  currentPhotosData = data;
+};
+
+photoContainer.addEventListener('click', onPhotoContainerClick);
 
 const closeModelOpen = () => {
   fullPhotoSection.classList.add('hidden');
@@ -139,4 +142,4 @@ function onEscKeydown(evt) {
   }
 }
 
-export { renderFullPhoto };
+export { getCurrentData };
