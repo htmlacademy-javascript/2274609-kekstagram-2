@@ -17,6 +17,7 @@ const previewImage = formLoad.querySelector('.img-upload__preview img');
 const effectPreviews = formLoad.querySelectorAll('.effects__preview');
 
 const btnCloseForm = formLoad.querySelector('.img-upload__cancel');
+const btnSubmitForm = document.querySelector('#upload-submit');
 
 const pristine = new Pristine(formLoad, {
   classTo: 'img-upload__field-wrapper',
@@ -72,11 +73,22 @@ const onBtnCloseClick = () => {
 
 fieldLoadFile.addEventListener('change', onFieldLoadChange);
 
+const blockBtnSubmit = () => {
+  btnSubmitForm.disabled = true;
+  btnSubmitForm.textContent = 'Публикую...';
+};
+
+const unBlockBtnSubmit = () => {
+  btnSubmitForm.disabled = false;
+  btnSubmitForm.textContent = 'Опубликовать';
+};
+
 const initFormSubmit = () => {
   formLoad.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
+      blockBtnSubmit();
       const formData = new FormData(evt.target);
       setData(formData)
         .then(() => {
@@ -86,6 +98,7 @@ const initFormSubmit = () => {
         .catch(() => {
           showError();
         });
+      unBlockBtnSubmit();
     }
   });
 

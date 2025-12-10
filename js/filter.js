@@ -22,6 +22,7 @@ const cleanPictureContainer = () => {
 };
 
 const showPhotos = (dataPhotos) => {
+  cleanPictureContainer();
   renderPreview(dataPhotos);
   getCurrentData(dataPhotos);
 };
@@ -54,8 +55,11 @@ const getFilterPhotos = (dataPhotos) => {
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
+      if (btn.classList.contains('img-filters__button--active')) {
+        return;
+      }
+
       cleanBtn(filterBtns);
-      cleanPictureContainer();
       btn.classList.add('img-filters__button--active');
 
       switch(btn.id) {

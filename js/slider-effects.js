@@ -42,7 +42,7 @@ const sliderValue = sliderContainer.querySelector('.effect-level__value');
 
 const conteinerEffects = document.querySelector('.img-upload__effects');
 
-const containerPreviewPhoto = document.querySelector('.img-upload__preview');
+const previewPhoto = document.querySelector('.img-upload__preview img');
 
 let currentEffectName = 'none';
 
@@ -59,9 +59,9 @@ noUiSlider.create(sliderElement, {
 const changeFilter = (value) => {
   const currentEffectConfig = EFFECTS[currentEffectName];
   if (currentEffectConfig.style) {
-    containerPreviewPhoto.style.filter = `${currentEffectConfig.style}(${value}${currentEffectConfig.unit})`;
+    previewPhoto.style.filter = `${currentEffectConfig.style}(${value}${currentEffectConfig.unit})`;
   } else {
-    containerPreviewPhoto.style.filter = '';
+    previewPhoto.style.filter = '';
   }
 
 };
@@ -79,7 +79,7 @@ const changeEffectPhoto = (effectName) => {
 
   if (!currentEffectConfig.sliderOptions) {
     sliderContainer.classList.add('hidden');
-    containerPreviewPhoto.style.filter = '';
+    previewPhoto.style.filter = '';
     return;
   }
 
