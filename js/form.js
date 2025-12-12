@@ -13,7 +13,9 @@ const modalEditing = formLoad.querySelector('.img-upload__overlay');
 const fieldHashtag = formLoad.querySelector('.text__hashtags');
 const fieldDescription = formLoad.querySelector('.text__description');
 
-const previewImage = formLoad.querySelector('.img-upload__preview img');
+const FILE_TYPES = ['png', 'gif', 'jpeg', 'jpg'];
+
+const previewImage = document.querySelector('.img-upload__preview');
 const effectPreviews = formLoad.querySelectorAll('.effects__preview');
 
 const btnCloseForm = formLoad.querySelector('.img-upload__cancel');
@@ -41,23 +43,19 @@ const showModalEditing = () => {
 
 const onFieldLoadChange = (evt) => {
   evt.preventDefault();
+  const file = fieldLoadFile.files[0];
+  const fileName = file.name.toLowerCase();
 
-  const file = evt.target.files[0];
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
-  if (file) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      const fileURL = reader.result;
-      previewImage.src = fileURL;
+  if (matches) {
+    previewImage.children[0].src = URL.createObjectURL(file);
 
-      effectPreviews.forEach((preview) => {
-        preview.style.backgroundImage = `url(${fileURL})`;
-      });
-
+    effectPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
     });
-
-    reader.readAsDataURL(file);
   }
+
 
   showModalEditing();
 };

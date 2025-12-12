@@ -68,7 +68,7 @@ const changeFilter = (value) => {
 
 sliderElement.noUiSlider.on('update', () => {
   const value = sliderElement.noUiSlider.get();
-  sliderValue.value = value;
+  sliderValue.value = Number(value);
   changeFilter(value);
 });
 

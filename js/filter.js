@@ -29,17 +29,35 @@ const showPhotos = (dataPhotos) => {
 
 const showPhotosDebounce = debounce((data) => showPhotos(data));
 
-const shuffleData = (dataPhotos, count = 10) => {
-  const array = [...dataPhotos];
-  let randomIndex;
+// const shuffleData = (dataPhotos, count = 10) => {
+//   const array = [...dataPhotos];
+//   let randomIndex;
 
-  for (let i = array.length - 1; i > 0; i -= 1) {
-    randomIndex = Math.floor(Math.random() * (i + 1));
+//   for (let i = array.length - 1; i > 0; i -= 1) {
+//     randomIndex = Math.floor(Math.random() * (i + 1));
 
-    [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
+//     [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
+//   }
+
+//   return array.slice(0, Math.min(count, array.length));
+// };
+
+const getRandomPhoto = (dataPhoto) => {
+  const result = [];
+  const totalCount = 10;
+  const arrayLength = dataPhoto.length;
+
+  while (result.length < totalCount) {
+    const randomIndex = Math.floor(Math.random() * arrayLength);
+
+    const randomElement = dataPhoto[randomIndex];
+
+    if (!result.includes(randomElement)) {
+      result.push(randomElement);
+    }
   }
 
-  return array.slice(0, Math.min(count, array.length));
+  return result;
 };
 
 const sortMessageAmount = (dataPhotos) => {
@@ -68,7 +86,7 @@ const getFilterPhotos = (dataPhotos) => {
           break;
 
         case ('filter-random'): {
-          const newDataPhotos = shuffleData(dataPhotos);
+          const newDataPhotos = getRandomPhoto(dataPhotos);
           showPhotosDebounce(newDataPhotos);
           break;
         }
