@@ -88,7 +88,7 @@ const showError = () => {
   const templateShowError = document.querySelector('#error').content;
   const newTemplateShowError = templateShowError.querySelector('.error');
   const cloneShowError = newTemplateShowError.cloneNode(true);
-  cloneShowError.setAttribute('style', 'z-index: 3');
+  //cloneShowError.setAttribute('style', 'z-index: 3');
 
   document.body.append(cloneShowError);
 

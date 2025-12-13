@@ -2,6 +2,8 @@ import { renderPreview } from './preview-photo.js';
 import { getCurrentData } from './full-photo.js';
 import { debounce } from './utils.js';
 
+const TIME_DELAY = 500;
+
 const pictureContainer = document.querySelector('.pictures.container');
 
 const filterContainer = document.querySelector('.img-filters');
@@ -27,20 +29,7 @@ const showPhotos = (dataPhotos) => {
   getCurrentData(dataPhotos);
 };
 
-const showPhotosDebounce = debounce((data) => showPhotos(data));
-
-// const shuffleData = (dataPhotos, count = 10) => {
-//   const array = [...dataPhotos];
-//   let randomIndex;
-
-//   for (let i = array.length - 1; i > 0; i -= 1) {
-//     randomIndex = Math.floor(Math.random() * (i + 1));
-
-//     [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
-//   }
-
-//   return array.slice(0, Math.min(count, array.length));
-// };
+const showPhotosDebounce = debounce((data, time) => showPhotos(data, time));
 
 const getRandomPhoto = (dataPhoto) => {
   const result = [];
@@ -82,18 +71,18 @@ const getFilterPhotos = (dataPhotos) => {
 
       switch(btn.id) {
         case ('filter-default'):
-          showPhotosDebounce(dataPhotos);
+          showPhotosDebounce(dataPhotos, TIME_DELAY);
           break;
 
         case ('filter-random'): {
           const newDataPhotos = getRandomPhoto(dataPhotos);
-          showPhotosDebounce(newDataPhotos);
+          showPhotosDebounce(newDataPhotos, TIME_DELAY);
           break;
         }
 
         case ('filter-discussed'): {
           const newDataPhotos = sortMessageAmount(dataPhotos);
-          showPhotosDebounce(newDataPhotos);
+          showPhotosDebounce(newDataPhotos, TIME_DELAY);
           break;
         }
       }
