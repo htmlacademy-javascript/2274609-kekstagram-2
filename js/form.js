@@ -31,7 +31,7 @@ pristine.addValidator(fieldHashtag, isHashtag, 'Неверный хэш-тег',
 pristine.addValidator(fieldHashtag, isDubleHashtags, 'Хэш-теги дублируются', 2, false);
 pristine.addValidator(fieldHashtag, isLengthHashtags, 'Не более пяти хэш-тегов', 3, false);
 
-pristine.addValidator(fieldDescription, isCommentLength, false);
+pristine.addValidator(fieldDescription, isCommentLength, 'Не более 140 символов', false);
 
 const showModalEditing = () => {
   modalEditing.classList.remove('hidden');
@@ -56,7 +56,6 @@ const onFieldLoadChange = (evt) => {
     });
   }
 
-
   showModalEditing();
 };
 
@@ -69,7 +68,7 @@ const onBtnCloseClick = () => {
   document.removeEventListener('keydown', onModalEditingEscKeydown);
 };
 
-fieldLoadFile.addEventListener('change', onFieldLoadChange);
+//fieldLoadFile.addEventListener('change', onFieldLoadChange);
 
 const blockBtnSubmit = () => {
   btnSubmitForm.disabled = true;
@@ -92,16 +91,18 @@ const initFormSubmit = () => {
         .then(() => {
           showSucces();
           onBtnCloseClick();
+          unBlockBtnSubmit();
         })
         .catch(() => {
           showError();
+          unBlockBtnSubmit();
         });
-      unBlockBtnSubmit();
+
     }
   });
-
-  btnCloseForm.addEventListener('click', onBtnCloseClick);
 };
+
+btnCloseForm.addEventListener('click', onBtnCloseClick);
 
 function onModalEditingEscKeydown (evt) {
   if (fieldHashtag === document.activeElement || fieldDescription === document.activeElement) {
@@ -114,4 +115,4 @@ function onModalEditingEscKeydown (evt) {
   }
 }
 
-export { initFormSubmit, onModalEditingEscKeydown };
+export { initFormSubmit, onModalEditingEscKeydown, onFieldLoadChange };
